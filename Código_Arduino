@@ -16,18 +16,22 @@
 
 #include <SPI.h>
 #include <SD.h>
-#define PAINEL_SOLAR = 0;
+#define PAINEL_SOLAR = 0
 #define GAIGHER =
-#define sloshing[8] = {0,0,0,0,0,0,0,0};
+#define sloshing[8] = {0,0,0,0,0,0,0,0}
+#define gaiger
 
  
 float volts = 0.0;
+int = contador_gaiger=0;
 
 const int chipSelect = 4;
 
 void setup() {
  
   //PRECISAMOS COLOCAR O REMOVE BEFORE FLIGHT 
+  attachInterrupt(gaiger,contador_gaiger++,RISING);
+  
   // see if the card is present and can be initialized:
   if (!SD.begin(chipSelect)) {
     Serial.println("Card failed, or not present");
@@ -51,7 +55,6 @@ void loop() {
   float resist_sloshing[8];
   float resist_bin1[8];
 
-  float gaigher;
   float tensao_painel;
   float corrente_painel;
 
@@ -68,7 +71,7 @@ void loop() {
   
   corrente_painel = tensao_painel/RESISTENCIA_PAINEL;
 
-  dataString += String(gaigher);
+  dataString += String(contador_gaiger);
   dataString += ",";
   dataString += String(tensao_painel);
   dataString += ",";
