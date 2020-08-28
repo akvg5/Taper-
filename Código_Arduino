@@ -67,7 +67,7 @@ void loop() {
   
   tensao_painel = analogRead(PAINEL_SOLAR);
   tensao_painel = tensao_painel*(5.0/1023.0);
-  gaigher = analogRead(GAIGHER);
+
   
   corrente_painel = tensao_painel/RESISTENCIA_PAINEL;
 
