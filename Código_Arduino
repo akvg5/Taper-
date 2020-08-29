@@ -16,21 +16,20 @@
 
 #include <SPI.h>
 #include <SD.h>
-#define PAINEL_SOLAR = 0
-#define GAIGHER =
-#define sloshing[8] = {0,0,0,0,0,0,0,0}
-#define gaiger
 
+#define PAINEL_SOLAR   
+#define gaiger
+const int sloshing[]= {12,8,6,4,3,4,4,6};
  
-unsigned double tempo;
-int = contador_gaiger=0;
+unsigned long tempo; 
+unsigned int contador_gaiger = 0;
 
 const int chipSelect = 4;
 
 void setup() {
  
-  //PRECISAMOS COLOCAR O REMOVE BEFORE FLIGHT 
-  attachInterrupt(gaiger,contador_gaiger++,RISING);
+  //PRECISAMOS COLOCAR O REMOVE BEFORE FLIGHT  
+  attachInterrupt(gaiger,[](){contadorgaiger++;},RISING); // Utilizando função lambda no gaiger
   
   // see if the card is present and can be initialized:
   if (!SD.begin(chipSelect)) {
@@ -43,25 +42,25 @@ void setup() {
 
 void loop() {
 
-   volts = analogRead(3)*(5.0/1023.0);
+   //volts = analogRead(3)*(5.0/1023.0);
   // make a string for assembling the data to log:
   String dataString = "";
 
   //Pino 0 é o painel solar.
 
-  const RESISTENCIA_PAINEL = 100;
+  const RESISTENCIA_PAINEL = 250;
  
   float tensao_sloshing[8];
-  float resist_sloshing[8];
-  float resist_bin1[8];
+  int resist_sloshing[8]; 
+
 
   float tensao_painel;
   float corrente_painel;
 
   for(int i=0; i<8; i++){
-    tensao_sloshing[i] =  analogRead([i])*(5/1024);
-    resist_sloshing[i] = (int)(127*(((tensao_sloshing[i])/(5-(tensao_sloshing[i])));
-     resist_bin[i] = (bool)resist_sloshing1[i];
+    tensao_sloshing[i] =  analogRead(sloshing[i])*(5.0/1024.0);
+    resist_sloshing[i] = (int)round((127*(((tensao_sloshing[i])/(5-(tensao_sloshing[i])))); // Ver como é o arredondamento do arduino
+   
   }
 
   
@@ -70,42 +69,24 @@ void loop() {
 
   
   corrente_painel = tensao_painel/RESISTENCIA_PAINEL;
-  tempo = milis();
+  tempo = millis();
 
-  dataString += String(milis);
-  dataString += ",";
+  dataString += String(tempo);
+  dataString += "\t";
   dataString += String(contador_gaiger);
-  dataString += ",";
+  dataString += "\t";
   dataString += String(tensao_painel);
-  dataString += ",";
+  dataString += "\t";
   dataString += String(corrente_painel);
-  dataString += ",";
-  dataString += String(resist_bin1);
-  dataString += ",";
+  dataString += "\t";
   for(int i=0; i<8; i++){
-    
+    dataString += String(resist_sloshing[i],BIN);
+    dataString += "\t";
+    dataString += String(tensao_sloshing[i]);
+    dataString += "\t";
   }
 
 
-/*3
-
- 7/2 = 3 resta 1 * 4
- 3/2 = 1 resta 1 * 2
- 1/2 = 0 resta 1 * 1
-
-5/2 = 2
-1resta 1*4
-2/2 = 1 resta 0*2
-1/2 = 0 resta 1*1
-
--             0*4
-3/2 = 1 resta 1*2
-1/2 = 0 resta 1*1
-
-001
-111
-101
-*/
   // open the file. note that only one file can be open at a time,
   // so you have to close this one before opening another.
   File dataFile = SD.open("carga_paga.txt", FILE_WRITE);
@@ -123,45 +104,3 @@ void loop() {
   }
   
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-int converte_pra_numero(float sloshing)
-{
-  //Código que converte a tensão em um núemro entre 0 e 123
-
-  return numero;
-}
-
-
-
-
-
-  // read three sensors and append to the string:
-  for (int analogPin = 0; analogPin < 3; analogPin++) {
-    int sensor = analogRead(analogPin); 
-    dataString += String(sensor);
-    if (analogPin < 2) {              
-      dataString += ",";
-    }
-  }
-
-Resistência = 127*{[(5/1024)*(V)]/[5-(5/1024)*(V)]}
