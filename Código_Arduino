@@ -22,7 +22,7 @@
 #define gaiger
 
  
-float volts = 0.0;
+unsigned double tempo;
 int = contador_gaiger=0;
 
 const int chipSelect = 4;
@@ -70,7 +70,10 @@ void loop() {
 
   
   corrente_painel = tensao_painel/RESISTENCIA_PAINEL;
+  tempo = milis();
 
+  dataString += String(milis);
+  dataString += ",";
   dataString += String(contador_gaiger);
   dataString += ",";
   dataString += String(tensao_painel);
